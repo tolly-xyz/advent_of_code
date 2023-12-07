@@ -4,4 +4,4 @@ venv/
 
 # Added by cargo
 
-target/**/*
+target/
