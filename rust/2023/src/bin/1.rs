@@ -29,14 +29,14 @@ fn part_two(input: &str) {
                     first = c.to_digit(10).unwrap();
                 }
                 last = c.to_digit(10).unwrap();
-            } else if let Some((j, _)) = numbers.iter().enumerate().find(|(_, num)| {
+            } else if let Some((_, j)) = numbers.iter().zip(1..).find(|(num, _)| {
                 let end = i + num.len();
                 end - 1 < line.len() && ***num == line[i..end]
             }) {
                 if first == 0 {
-                    first = j as u32 + 1;
+                    first = j as u32;
                 }
-                last = j as u32 + 1;
+                last = j as u32;
             }
         }
         sum += 10 * first + last;
