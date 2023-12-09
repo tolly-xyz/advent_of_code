@@ -2,19 +2,19 @@ use std::path::Path;
 
 use aoc_2023::read_input;
 
-fn part_one(input: &str) {
+fn part_one(input: &str) -> Option<u32> {
     let mut sum: u32 = 0;
 
     for line in input.lines() {
-        let first: char = line.chars().find(|c| c.is_ascii_digit()).unwrap();
-        let last: char = line.chars().rfind(|c| c.is_ascii_digit()).unwrap();
-        sum += format!("{first}{last}").parse::<u32>().unwrap();
+        let first: char = line.chars().find(|c| c.is_ascii_digit())?;
+        let last: char = line.chars().rfind(|c| c.is_ascii_digit())?;
+        sum += 10 * first.to_digit(10)? + last.to_digit(10)?
     }
 
-    println!("Part One Answer: {}", sum)
+    Some(sum)
 }
 
-fn part_two(input: &str) {
+fn part_two(input: &str) -> Option<u32> {
     let numbers = [
         "one", "two", "three", "four", "five", "six", "seven", "eight", "nine",
     ];
@@ -26,29 +26,37 @@ fn part_two(input: &str) {
         for (i, c) in line.chars().enumerate() {
             if c.is_ascii_digit() {
                 if first == 0 {
-                    first = c.to_digit(10).unwrap();
+                    first = c.to_digit(10)?
                 }
-                last = c.to_digit(10).unwrap();
-            } else if let Some((_, j)) = numbers.iter().zip(1..).find(|(num, _)| {
-                let end = i + num.len();
-                end - 1 < line.len() && ***num == line[i..end]
-            }) {
+                last = c.to_digit(10)?
+            } else if let Some((_, j)) = numbers
+                .iter()
+                .zip(1..)
+                .find(|(num, _)| line[i..].starts_with(*num))
+            {
                 if first == 0 {
-                    first = j as u32;
+                    first = j;
                 }
-                last = j as u32;
+                last = j;
             }
         }
         sum += 10 * first + last;
     }
 
-    println!("Part Two Answer: {}", sum)
+    Some(sum)
 }
 
 fn main() {
     let day = Path::new(file!()).file_stem().unwrap().to_str().unwrap();
     let input: String = read_input(day);
 
-    part_one(&input);
-    part_two(&input);
+    match part_one(&input) {
+        Some(ans) => println!("Part One: {}", ans),
+        None => println!("Part one returned None!"),
+    }
+
+    match part_two(&input) {
+        Some(ans) => println!("Part Two: {}", ans),
+        None => println!("Part one returned None!"),
+    }
 }
