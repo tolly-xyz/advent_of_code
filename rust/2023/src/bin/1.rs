@@ -1,5 +1,3 @@
-use std::path::Path;
-
 use aoc_2023::read_input;
 
 fn part_one(input: &str) -> Option<u32> {
