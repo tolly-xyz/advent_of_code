@@ -1,5 +1,3 @@
-use std::path::Path;
-
 use aoc_2023::read_input;
 
 fn part_one(input: &str) {
@@ -56,8 +54,9 @@ fn part_two(input: &str) {
 }
 
 fn main() {
-    let day = Path::new(file!()).file_stem().unwrap().to_str().unwrap();
-    let input: String = read_input(day);
+    let Some(input) = read_input(file!()) else {
+        panic!("Unable to read input!");
+    };
 
     part_one(&input);
     part_two(&input);

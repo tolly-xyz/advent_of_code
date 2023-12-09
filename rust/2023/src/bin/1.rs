@@ -47,8 +47,9 @@ fn part_two(input: &str) -> Option<u32> {
 }
 
 fn main() {
-    let day = Path::new(file!()).file_stem().unwrap().to_str().unwrap();
-    let input: String = read_input(day);
+    let Some(input) = read_input(file!()) else {
+        panic!("Unable to read input!");
+    };
 
     match part_one(&input) {
         Some(ans) => println!("Part One: {}", ans),
